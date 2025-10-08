@@ -1,15 +1,14 @@
-A<!doctype html>
+<!doctype html>
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Watchlist - Canlı (Firebase)</title>
+  <title>Watchlist (Firebase)</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#071023;--card:#0f1724;--accent:#00c896;--muted:#93a1b0;--glass:rgba(255,255,255,0.03)}
-    *{box-sizing:border-box}
+    :root{--bg:#071023;--card:#0f1724;--accent:#00c896;--muted:#93a1b0}
     body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(180deg,#071025 0%,#0b1220 100%);color:#e6eef6;min-height:100vh}
-    header{display:flex;align-items:center;gap:16px;padding:16px 20px;background:linear-gradient(90deg,#071025,#081229);box-shadow:0 4px 30px rgba(2,6,23,0.6)}
+    header{display:flex;align-items:center;gap:16px;padding:16px 20px;background:linear-gradient(90deg,#071025,#081229)}
     .brand{display:flex;align-items:center;gap:12px}
     .logo{height:44px;width:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#06a47a);display:flex;align-items:center;justify-content:center;font-weight:700}
     h1{margin:0;font-size:18px}
@@ -19,25 +18,18 @@ A<!doctype html>
     button{background:var(--accent);color:#022;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
     .container{max-width:1100px;margin:20px auto;padding:18px}
     .grid{display:grid;grid-template-columns:1fr 340px;gap:18px}
-    .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 30px rgba(2,6,23,0.6)}
-    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    .card{background:var(--card);padding:16px;border-radius:12px}
     input[type=text],select{width:100%;padding:8px;border-radius:8px;border:none;background:#061224;color:inherit}
-    .form-row{display:flex;gap:8px;margin-bottom:8px}
-    .list .item{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);margin-bottom:8px}
+    .list .item{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px;border-radius:8px;background:rgba(255,255,255,0.05);margin-bottom:8px}
     .meta{font-size:13px;color:var(--muted)}
     .badge{padding:6px 8px;border-radius:8px;font-weight:600}
     .watched{background:linear-gradient(90deg,#047857,#10b981);color:#04241a}
     .unwatched{background:#2f3545;color:#cfe7df}
-    .actions button{margin-left:6px;padding:6px 8px}
     .tabs{display:flex;gap:8px;margin-bottom:12px}
-    .tabs button{background:#0b1730;color:inherit;padding:8px 12px;border-radius:8px}
     .tabs button.active{background:var(--accent);color:#022}
     .small{font-size:13px;color:var(--muted)}
     .login-screen{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;z-index:999}
     .login-box{width:360px;background:#08122a;padding:20px;border-radius:10px}
-    .login-box h2{margin:0 0 8px 0;color:var(--accent)}
-    .hint{font-size:12px;color:var(--muted);margin-top:8px}
-    @media(max-width:980px){.grid{grid-template-columns:1fr}.search-wrap{max-width:100%}}
   </style>
 </head>
 <body>
@@ -45,26 +37,21 @@ A<!doctype html>
   <div class="login-screen" id="loginScreen">
     <div class="login-box card">
       <h2>Güvenli Giriş</h2>
-      <div class="small">E-posta / şifre ile giriş yapın. Eğer hesabın yoksa önce <strong>Kaydol</strong> yapın.</div>
-      <div style="margin-top:12px">
-        <input id="email" placeholder="E-posta (ör: admin@watchlist.com)" />
-        <div style="height:8px"></div>
-        <input id="pwd" placeholder="Şifre (ör: 1234admin)" type="password" />
-        <div class="form-row" style="margin-top:10px">
-          <button id="btnLogin">Giriş</button>
-          <button id="btnRegister">Kaydol</button>
-        </div>
-        <div class="hint">Not: İlk kez kullanacaksan Firebase Authentication panelinden de kullanıcı oluşturabilirsin.</div>
+      <input id="email" placeholder="E-posta" />
+      <input id="pwd" placeholder="Şifre" type="password" style="margin-top:10px"/>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="btnLogin">Giriş</button>
+        <button id="btnRegister">Kaydol</button>
       </div>
     </div>
   </div>
 
   <header>
-    <div class="brand"><div class="logo">WL</div><h1>Watchlist (Firebase)</h1></div>
-    <div class="search-wrap"><input id="searchInput" placeholder="Film veya dizi ara... (isim, tür veya link)" /></div>
+    <div class="brand"><div class="logo">WL</div><h1>Watchlist</h1></div>
+    <div class="search-wrap"><input id="searchInput" placeholder="Ara..." /></div>
     <div class="controls">
       <select id="genreFilter"><option value="">Tüm Türler</option></select>
-      <button id="btnAddTop">Yeni Ekle</button>
+      <button id="btnAddTop">Yeni</button>
       <button id="btnLogout">Çıkış</button>
     </div>
   </header>
@@ -78,53 +65,41 @@ A<!doctype html>
             <button id="tabSeries">Diziler</button>
             <button id="tabWatched">İzlenenler</button>
           </div>
-
           <div id="mainList" class="list"></div>
-        </div>
-
-        <div class="card" style="margin-top:12px">
-          <h3>İstatistikler</h3>
-          <div class="small">Toplam: <span id="statTotal">0</span> — İzlenen: <span id="statWatched">0</span> — Diziler: <span id="statSeries">0</span></div>
         </div>
       </div>
 
       <aside>
         <div class="card">
-          <h3>Yeni Film / Dizi</h3>
-          <label>Tür</label>
+          <h3>Yeni / Düzenle</h3>
           <select id="typeSelect"><option value="movie">Film</option><option value="series">Dizi</option></select>
-          <label>İsim</label>
           <input id="nameInput" placeholder="İsim" />
-          <label>Link (izleme linki veya bilgi)</label>
-          <input id="linkInput" placeholder="https://..." />
-          <label>Fragman (YouTube / paylaşılabilir link)</label>
-          <input id="trailerInput" placeholder="https://youtube.com/..." />
-          <label>Tür / Kategori</label>
-          <select id="genreInput"><option>Genel</option><option>Aksiyon</option><option>Komedi</option><option>Drama</option><option>Bilim Kurgu</option><option>Korku</option><option>Belgesel</option></select>
-          <div style="height:10px"></div>
-          <div class="form-row"><button id="saveBtn">Kaydet</button><button id="clearBtn">Temizle</button></div>
-          <div class="hint">Veriler gerçek zamanlı olarak Firebase Realtime DB'ye kaydedilir.</div>
+          <input id="linkInput" placeholder="Link" />
+          <input id="trailerInput" placeholder="Fragman" />
+          <select id="genreInput"><option>Genel</option><option>Aksiyon</option><option>Komedi</option><option>Bilim Kurgu</option></select>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button id="saveBtn">Kaydet</button>
+            <button id="clearBtn">Temizle</button>
+          </div>
         </div>
 
         <div class="card" style="margin-top:12px">
-          <h3>Yedek / İçe Dışa</h3>
-          <div class="small">JSON dışa aktar / içe aktar için butonlar.</div>
-          <div style="margin-top:8px" class="form-row"><button id="exportBtn">Dışa Aktar (JSON)</button><button id="importBtn">İçe Aktar (JSON)</button></div>
-          <textarea id="jsonArea" style="width:100%;height:120px;margin-top:8px;background:#061224;color:inherit;border-radius:8px;border:none;padding:8px"></textarea>
+          <h3>Yedekleme</h3>
+          <div style="display:flex;gap:8px;margin-top:6px">
+            <button id="exportBtn">Dışa Aktar</button>
+            <button id="importBtn">İçe Aktar</button>
+          </div>
+          <textarea id="jsonArea" style="width:100%;height:120px;margin-top:8px;background:#061224;color:inherit;border:none;padding:8px"></textarea>
         </div>
       </aside>
     </div>
   </div>
 
-  <!-- Firebase SDK (modular) via CDN -->
   <script type="module">
-    // Firebase imports
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
-    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js';
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
-    import { getDatabase, ref, push, set, onValue, update, remove } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js';
+    import { getDatabase, ref, push, set, onValue, update as fbUpdate, remove } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js';
 
-    // --- CONFIG (senin gönderdiğin değerler) ---
     const firebaseConfig = {
       apiKey: "AIzaSyC9cTj7TxIJFRaacGpFKpbudhcNSiG0HYY",
       authDomain: "watchlist-app-23575.firebaseapp.com",
@@ -136,236 +111,116 @@ A<!doctype html>
       measurementId: "G-Y60MBBH78K"
     };
 
-    // initialize
     const app = initializeApp(firebaseConfig);
-    try{ getAnalytics(app); }catch(e){}
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // UI refs
-    const loginScreen = document.getElementById('loginScreen');
-    const emailI = document.getElementById('email');
-    const pwdI = document.getElementById('pwd');
-    const btnLogin = document.getElementById('btnLogin');
-    const btnRegister = document.getElementById('btnRegister');
-    const btnLogout = document.getElementById('btnLogout');
+    const loginScreen=document.getElementById('loginScreen');
+    const email=document.getElementById('email');
+    const pwd=document.getElementById('pwd');
+    const btnLogin=document.getElementById('btnLogin');
+    const btnRegister=document.getElementById('btnRegister');
+    const btnLogout=document.getElementById('btnLogout');
+    const nameInput=document.getElementById('nameInput');
+    const linkInput=document.getElementById('linkInput');
+    const trailerInput=document.getElementById('trailerInput');
+    const typeSelect=document.getElementById('typeSelect');
+    const genreInput=document.getElementById('genreInput');
+    const saveBtn=document.getElementById('saveBtn');
+    const clearBtn=document.getElementById('clearBtn');
+    const mainList=document.getElementById('mainList');
+    const searchInput=document.getElementById('searchInput');
+    const genreFilter=document.getElementById('genreFilter');
+    const exportBtn=document.getElementById('exportBtn');
+    const importBtn=document.getElementById('importBtn');
+    const jsonArea=document.getElementById('jsonArea');
+    const tabMovies=document.getElementById('tabMovies');
+    const tabSeries=document.getElementById('tabSeries');
+    const tabWatched=document.getElementById('tabWatched');
 
-    const searchInput = document.getElementById('searchInput');
-    const genreFilter = document.getElementById('genreFilter');
-    const btnAddTop = document.getElementById('btnAddTop');
+    let allItems={};
+    let activeTab='movies';
 
-    const nameInput = document.getElementById('nameInput');
-    const linkInput = document.getElementById('linkInput');
-    const trailerInput = document.getElementById('trailerInput');
-    const typeSelect = document.getElementById('typeSelect');
-    const genreInput = document.getElementById('genreInput');
-    const saveBtn = document.getElementById('saveBtn');
-    const clearBtn = document.getElementById('clearBtn');
+    function showLogin(){loginScreen.style.display='flex';}
+    function hideLogin(){loginScreen.style.display='none';}
 
-    const mainList = document.getElementById('mainList');
-    const tabMovies = document.getElementById('tabMovies');
-    const tabSeries = document.getElementById('tabSeries');
-    const tabWatched = document.getElementById('tabWatched');
+    btnLogin.onclick=async()=>{
+      try{await signInWithEmailAndPassword(auth,email.value,pwd.value);hideLogin();}catch(e){alert(e.message);}
+    };
+    btnRegister.onclick=async()=>{
+      try{await createUserWithEmailAndPassword(auth,email.value,pwd.value);alert('Kayıt tamam. Giriş yap.');}catch(e){alert(e.message);}
+    };
+    btnLogout.onclick=()=>signOut(auth);
 
-    const exportBtn = document.getElementById('exportBtn');
-    const importBtn = document.getElementById('importBtn');
-    const jsonArea = document.getElementById('jsonArea');
+    onAuthStateChanged(auth,u=>{if(u){hideLogin();startRealtime();}else{showLogin();stopRealtime();}});
 
-    // state
-    let allItems = {}; // key -> item
-    let activeTab = 'movies'; // movies, series, watched
+    const itemsRef=ref(db,'items');
+    function startRealtime(){onValue(itemsRef,s=>{allItems=s.val()||{};renderList();populateGenres();});}
+    function stopRealtime(){allItems={};renderList();}
 
-    function showLogin(){ loginScreen.style.display = 'flex'; }
-    function hideLogin(){ loginScreen.style.display = 'none'; }
+    async function saveItem(id,data){if(id){await fbUpdate(ref(db,'items/'+id),data);}else{await set(push(itemsRef),data);}}
+    async function deleteItem(id){if(confirm('Silinsin mi?'))await remove(ref(db,'items/'+id));}
 
-    // AUTH actions (GÜNCELLENDİ)
-    btnLogin.addEventListener('click', async () => {
-    const email = emailI.value.trim();
-    const pwd = pwdI.value.trim();
-    if (!email || !pwd) return alert('E-posta ve şifre girin.');
-    try {
-    await signInWithEmailAndPassword(auth, email, pwd);
-    hideLogin();
-    } catch (e) {
-    alert('Giriş başarısız: ' + e.message);
-   }
-});
+    saveBtn.onclick=async()=>{
+      const name=nameInput.value.trim();
+      if(!name)return alert('İsim gir.');
+      const data={name,link:linkInput.value, trailer:trailerInput.value, type:typeSelect.value, genre:genreInput.value||'Genel', watched:false, createdAt:Date.now()};
+      const editId=saveBtn.dataset.editId;
+      await saveItem(editId||null,data);
+      delete saveBtn.dataset.editId;
+      saveBtn.textContent='Kaydet';
+      nameInput.value=linkInput.value=trailerInput.value='';
+      genreInput.value='Genel';
+    };
+    clearBtn.onclick=()=>{nameInput.value=linkInput.value=trailerInput.value='';};
 
-btnRegister.addEventListener('click', async () => {
-  const email = emailI.value.trim();
-  const pwd = pwdI.value.trim();
-  if (!email || !pwd) return alert('E-posta ve şifre girin.');
-  try {
-    await createUserWithEmailAndPassword(auth, email, pwd);
-    alert('Kayıt başarılı, giriş yapabilirsiniz.');
-  } catch (e) {
-    alert('Kayıt hatası: ' + e.message);
-  }
-});
+    tabMovies.onclick=()=>setTab('movies');
+    tabSeries.onclick=()=>setTab('series');
+    tabWatched.onclick=()=>setTab('watched');
+    function setTab(t){activeTab=t;document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));if(t==='movies')tabMovies.classList.add('active');if(t==='series')tabSeries.classList.add('active');if(t==='watched')tabWatched.classList.add('active');renderList();}
 
-btnLogout.addEventListener('click', async () => {
-  await signOut(auth);
-});
+    searchInput.oninput=()=>renderList();
+    genreFilter.onchange=()=>renderList();
 
-onAuthStateChanged(auth, user => {
-  if (user) {
-    hideLogin();
-    startRealtime();
-  } else {
-    showLogin();
-    stopRealtime();
-  }
-});
+    exportBtn.onclick=()=>{jsonArea.value=JSON.stringify(allItems,null,2);alert('JSON hazır.');};
+    importBtn.onclick=async()=>{
+      try{const d=JSON.parse(jsonArea.value);await set(itemsRef,d);alert('İçe aktarıldı.');}catch(e){alert('Hata:'+e.message);}
+    };
 
-
-    // Realtime DB: path /items
-    const itemsRef = ref(db, 'items');
-    let unsubscribeRT = null;
-    function startRealtime(){
-      // listen to changes once and forever
-      onValue(itemsRef, snapshot=>{
-        const val = snapshot.val() || {};
-        allItems = val;
-        renderList();
-        populateGenreFilter();
-      });
+    function populateGenres(){
+      const genres=new Set();Object.values(allItems).forEach(x=>genres.add(x.genre||'Genel'));
+      const cur=genreFilter.value;
+      genreFilter.innerHTML='<option value="">Tüm Türler</option>';
+      Array.from(genres).sort().forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;genreFilter.appendChild(o);});
+      genreFilter.value=cur;
     }
-    function stopRealtime(){ allItems = {}; renderList(); }
-
-    // Save / update item
-    async function saveItem(id, data){
-      if(id){ // update
-        await update(ref(db, 'items/' + id), data);
-      } else {
-        const p = push(itemsRef);
-        await set(p, data);
-      }
-    }
-    async function deleteItem(id){ if(!confirm('Silinsin mi?')) return; await remove(ref(db,'items/'+id)); }
-
-    // UI actions
-    btnAddTop.addEventListener('click', ()=>{ window.scrollTo({top:0,behavior:'smooth'}); nameInput.focus(); });
-    clearBtn.addEventListener('click', ()=>{ nameInput.value='';linkInput.value='';trailerInput.value='';genreInput.value='Genel'; });
-
-    saveBtn.addEventListener('click', async ()=>{
-      const name = nameInput.value.trim(); const link = linkInput.value.trim(); const trailer = trailerInput.value.trim();
-      const type = typeSelect.value; const genre = genreInput.value || 'Genel';
-      if(!name) return alert('İsim gir.');
-      const data = { name, link, trailer, type, genre, watched:false, createdAt: Date.now() };
-      await saveItem(null, data);
-      nameInput.value=''; linkInput.value=''; trailerInput.value=''; genreInput.value='Genel';
-    });
 
     function renderList(){
-      // convert object to array
-      const arr = Object.keys(allItems).map(k=>({id:k, ...allItems[k]}));
-      document.getElementById('statTotal').innerText = arr.length;
-      document.getElementById('statWatched').innerText = arr.filter(x=>x.watched).length;
-      document.getElementById('statSeries').innerText = arr.filter(x=>x.type==='series').length;
-
-      const q = searchInput.value.trim().toLowerCase();
-      const genreF = genreFilter.value;
-      let filtered = arr.filter(x=>{
-        if(activeTab==='movies' && x.type!=='movie') return false;
-        if(activeTab==='series' && x.type!=='series') return false;
-        if(activeTab==='watched' && !x.watched) return false;
-        if(genreF && x.genre!==genreF) return false;
-        if(!q) return true;
-        return (x.name||'').toLowerCase().includes(q) || (x.genre||'').toLowerCase().includes(q) || (x.link||'').toLowerCase().includes(q);
-      });
-
-      // sort by createdAt desc
-      filtered.sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
-
-      mainList.innerHTML = '';
-      if(filtered.length===0) mainList.innerHTML = '<div class="small">Gösterilecek kayıt yok.</div>';
-
-      for(const it of filtered){
-        const row = document.createElement('div'); row.className='item';
-        const left = document.createElement('div'); left.style.flex='1';
-        const title = document.createElement('a'); title.href = it.link || '#'; title.target='_blank'; title.rel='noopener'; title.textContent = it.name;
-        const meta = document.createElement('div'); meta.className='meta'; meta.textContent = it.genre + ' • ' + (it.type==='movie'?'Film':'Dizi');
-        left.appendChild(title); left.appendChild(meta);
-
-        const mid = document.createElement('div');
-        const badge = document.createElement('div'); badge.className='badge ' + (it.watched? 'watched':'unwatched'); badge.textContent = it.watched? 'İzledim':'İzlenmedi';
-        mid.appendChild(badge);
-
-        const actions = document.createElement('div'); actions.className='actions';
-        const watchBtn = document.createElement('button'); watchBtn.textContent = it.watched? 'Geri Al':'İzledim'; watchBtn.onclick = async ()=>{ await update(ref(db,'items/'+it.id), {watched: !it.watched}); };
-        const trailerBtn = document.createElement('button'); trailerBtn.textContent = 'Fragman'; trailerBtn.onclick = ()=>{ if(it.trailer) window.open(it.trailer,'_blank'); else alert('Fragman yok.'); };
-        const editBtn = document.createElement('button'); editBtn.textContent = 'Düzenle'; editBtn.onclick = ()=>{ nameInput.value=it.name; linkInput.value=it.link||''; trailerInput.value=it.trailer||''; typeSelect.value=it.type; genreInput.value=it.genre||'Genel'; // set temp id in saveBtn
-          saveBtn.dataset.editId = it.id; saveBtn.textContent='Güncelle'; window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
-        };
-        const delBtn = document.createElement('button'); delBtn.textContent='Sil'; delBtn.onclick = async ()=>{ await deleteItem(it.id); };
-
-        actions.appendChild(watchBtn); actions.appendChild(trailerBtn); actions.appendChild(editBtn); actions.appendChild(delBtn);
-
-        row.appendChild(left); row.appendChild(mid); row.appendChild(actions);
+      const arr=Object.entries(allItems).map(([id,v])=>({id,...v}));
+      let f=arr.filter(x=>{
+        if(activeTab==='movies'&&x.type!=='movie')return false;
+        if(activeTab==='series'&&x.type!=='series')return false;
+        if(activeTab==='watched'&&!x.watched)return false;
+        if(genreFilter.value&&x.genre!==genreFilter.value)return false;
+        const q=searchInput.value.toLowerCase();
+        return !q||x.name?.toLowerCase().includes(q)||x.genre?.toLowerCase().includes(q);
+      }).sort((a,b)=>b.createdAt-a.createdAt);
+      mainList.innerHTML=f.length?'':'<div class="small">Kayıt yok.</div>';
+      f.forEach(it=>{
+        const row=document.createElement('div');row.className='item';
+        const left=document.createElement('div');left.style.flex='1';
+        left.innerHTML=`<a href="${it.link||'#'}" target="_blank">${it.name}</a><div class="meta">${it.genre} • ${it.type==='movie'?'Film':'Dizi'}</div>`;
+        const badge=document.createElement('div');badge.className='badge '+(it.watched?'watched':'unwatched');badge.textContent=it.watched?'İzledim':'İzlenmedi';
+        const actions=document.createElement('div');
+        const b1=document.createElement('button');b1.textContent=it.watched?'Geri Al':'İzledim';b1.onclick=()=>fbUpdate(ref(db,'items/'+it.id),{watched:!it.watched});
+        const b2=document.createElement('button');b2.textContent='Fragman';b2.onclick=()=>it.trailer?window.open(it.trailer):alert('Fragman yok');
+        const b3=document.createElement('button');b3.textContent='Düzenle';b3.onclick=()=>{nameInput.value=it.name;linkInput.value=it.link;trailerInput.value=it.trailer;typeSelect.value=it.type;genreInput.value=it.genre;saveBtn.dataset.editId=it.id;saveBtn.textContent='Güncelle';};
+        const b4=document.createElement('button');b4.textContent='Sil';b4.onclick=()=>deleteItem(it.id);
+        actions.append(b1,b2,b3,b4);
+        row.append(left,badge,actions);
         mainList.appendChild(row);
-      }
-
-      // reset saveBtn state if no edit
-      if(!saveBtn.dataset.editId){ saveBtn.textContent='Kaydet'; }
+      });
     }
-
-    // handle update via saveBtn when editing
-    saveBtn.addEventListener('click', async ()=>{
-      const editId = saveBtn.dataset.editId;
-      if(editId){
-        const name = nameInput.value.trim(); const link = linkInput.value.trim(); const trailer = trailerInput.value.trim(); const genre = genreInput.value || 'Genel'; const type = typeSelect.value;
-        if(!name) return alert('İsim gir.');
-        await update(ref(db,'items/'+editId), {name,link,trailer,genre,type});
-        delete saveBtn.dataset.editId; saveBtn.textContent='Kaydet'; nameInput.value=''; linkInput.value=''; trailerInput.value=''; genreInput.value='Genel';
-      }
-    });
-
-    // tabs
-    tabMovies.addEventListener('click', ()=>{ setActiveTab('movies'); });
-    tabSeries.addEventListener('click', ()=>{ setActiveTab('series'); });
-    tabWatched.addEventListener('click', ()=>{ setActiveTab('watched'); });
-    function setActiveTab(id){ activeTab = id; document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active')); if(id==='movies') tabMovies.classList.add('active'); if(id==='series') tabSeries.classList.add('active'); if(id==='watched') tabWatched.classList.add('active'); renderList(); }
-
-    // search + filter
-    searchInput.addEventListener('input', ()=>renderList());
-    genreFilter.addEventListener('change', ()=>renderList());
-
-    // export / import
-    exportBtn.addEventListener('click', ()=>{ jsonArea.value = JSON.stringify(allItems, null, 2); alert('JSON hazır, kopyala veya indir.'); });
-    importBtn.addEventListener('click', async ()=>{
-      try{ const data = JSON.parse(jsonArea.value); if(typeof data !== 'object') throw new Error('Geçersiz JSON');
-        // overwrite entire items node (use with care)
-        await set(ref(db,'items'), data);
-        alert('İçe aktarma tamam.');
-      }catch(e){ alert('İçe aktarma hatası: '+e.message); }
-    });
-
-    // populate genre dropdown dynamic
-    function populateGenreFilter(){
-      const genres = new Set(); Object.values(allItems||{}).forEach(x=>genres.add(x.genre||'Genel'));
-      // keep current selection
-      const cur = genreFilter.value;
-      genreFilter.innerHTML = '<option value="">Tüm Türler</option>';
-      Array.from(genres).sort().forEach(g=>{ const o = document.createElement('option'); o.value=g; o.textContent=g; genreFilter.appendChild(o); });
-      if(cur) genreFilter.value = cur;
-    }
-
-    // helper update wrapper (since update imported earlier)
-    async function update(pathRef, data){
-      // pathRef can be string or ref
-      if(typeof pathRef === 'string'){ await updateOld(ref(db,pathRef), data); }
-      else { await updateOld(pathRef, data); }
-    }
-    // alias to avoid name collision with imported update
-    const updateOld = window.updateOld = (await (async()=>{
-      // we already imported update from firebase; reuse it
-      return update;
-    })());
-
-    // simple on load: if user is already logged in, start
-    // (onAuthStateChanged handles it)
-
   </script>
-
 </body>
 </html>
